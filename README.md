@@ -79,6 +79,7 @@ For example, I set the name to *"MaaS on RHOAI"* and time to *"Berlin"*.
 *"Organization Name"* appears at the top left corner of the main page.
 ![portal_orga_name.png](img/portal_orga_name.png)
 
+#### Backends - Provided Model Enpoints 
 - We now add a backend with the corresponding *"API-Endpoint"* provided by the model server:
 ![backend_1.png](img/backend_1.png)
 ![backend_2.png](img/backend_2.png)
@@ -88,3 +89,38 @@ Set the *Endpoint-URL*, a display and a system name for your model, as well as a
 
 When created, you will see that the backend is now added to the list.
 ![backend_4.png](img/backend_4.png)
+
+***If you have more model deployed, add them here using the same process.***
+
+
+#### Products - APIs for Customers
+- Go to the *"Products"* section and click on *"create a Product"*:
+![products_1.png](img/products_1.png)
+![products_2.png](img/products_2.png)
+
+Give the product a display and a system name, as well as a description about the product.
+![products_3.png](img/products_3.png)
+
+The created product is now added to the list.
+![products_4.png](img/products_4.png)
+
+We now configure a backend for the product. 
+- Click on the product's name and go to the *"integration/Backends"* from the left menu
+  Add a backend by selecting the recently created backend and add it to the product:
+  ![products_backends.png](img/products_backends.png)
+
+- Under the *"integration/Methods and Metrics"*, we add a method (e.g. *"List Models"*):
+  ![products_methods.png](img/products_methodes.png)
+  
+
+- Then we go to *"integration/Mapping Rules"*, and define available api-endpoints (*"Patterns"*) for that model:
+  ![products_mappingrules.png](img/products_mappingrules.png)
+  
+- We follow the same steps to add 3 more *"Methods"* and *"Mapping Rules"*:
+  ![products_methods_list.png](img/products_methodes_list.png)
+  
+  ![products_mappingrules_list.png](img/products_mappingrules_list.png)
+
+
+- At this step we change the authentication method for using the products. Go to *"integration/Settings"*. Change the *"Auth user key"* field content to **Authorization** and the *"Credentials location"* field to **As HTTP Basic Authentication**. When finished, click on Update product at the bottom of the page to save the changes:
+  ![products_authentication.png](img/products_authentication.png)
