@@ -154,4 +154,20 @@ The created product is now added to the list.
 - In *"Applications->Settings->Usage"* Rules, set the Default Plan to Default. This will allow the users to see the different available Products:
   ![products_application_plans_2.png](img/products_application_plans_2.png)
 
+**Attention:** If I want to create a new application from the portal, the anly available plan is a default *"Basic"* plan:
+![portal_applicaion_basic.png](img/portal_applicaion_basic.png)
 
+Therefore, we create the first application directly from the ***3scale admin portal***, by going to the *"Applications->Listing"*:
+![products_application_creation.png](img/products_application_creation.png)
+
+So that, we can now select the desired product (in our case *"granite-7b-instruct"*), when creating applications from the portal:
+![portal_applicaion_select_product.png](img/portal_applicaion_select_product.png)
+![portal_applicaion_standardplan.png](img/portal_applicaion_standardplan.png)
+
+##### --->>> Products - Active Docs <<<---
+
+**Attention:** Without *"Active Docs"*, the *"Enpoint URL"* will not be shown in the application page on the portal:
+![portal_applicaion_endpointURL.png](img/portal_applicaion_endpointURL.png)
+
+Hence, we add a *"spec"* under *"Active Docs"* for the product. In order to do that, copy the content of the file [deployment/3scale/active_docs.json](./deployment/3scale/active_docs.json) in the corresponding sectio of the spec, set a proper name and system name, check the box to publish the docs and click on *"Create spec"*.
+![products_active_docs.png](img/products_active_docs.png)
