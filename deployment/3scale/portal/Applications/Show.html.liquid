@@ -85,6 +85,8 @@
                 granite-8b-instruct
               {% elsif application.service.system_name == 'docling' %}
                 Not needed
+              {% else %}
+                {{ application.service.system_name }}
               {% endif %}
 				</code>
             <i class="fa fa-lg fa-copy" onclick="copyToClipboard('model_name', 'Model Name')"></i>

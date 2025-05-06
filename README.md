@@ -143,6 +143,13 @@ The created product is now added to the list.
   - After all the configurations, **DO NOT FORGET** to *"Update Policy Chain"*. Otherwise, all your changes will be lost.
   ![products_policies_list.png](img/products_policies_list.png)
 
+##### --->>> Products - Configuration & staging <<<---
+
+- From the *"Integration->Configuration"* menu, promote the configuration to *"staging"* then *"production"*.
+  ![products_config_staging_1.png](img/products_config_staging_1.png)
+  ![products_config_staging_2.png](img/products_config_staging_2.png)
+
+
 ##### --->>> Products - Applications & Application Plans <<<---
 
 - For each Product, from the *"Applications->Application Plans"* menu, create a new Application Plan. At the moment and for this plan, we are not forcing the approval for the applications.
@@ -171,3 +178,46 @@ So that, we can now select the desired product (in our case *"granite-7b-instruc
 
 Hence, we add a *"spec"* under *"Active Docs"* for the product. In order to do that, copy the content of the file [deployment/3scale/active_docs.json](./deployment/3scale/active_docs.json) in the corresponding sectio of the spec, set a proper name and system name, check the box to publish the docs and click on *"Create spec"*.
 ![products_active_docs.png](img/products_active_docs.png)
+
+
+#### Audience - Portal Content 
+- Under section **Audience**, go to the *"Developer Portal->Content"* and start editing the corresponding pages and files:
+![audience_1.png](img/audience_1.png)
+![audience_portal_content_1.png](img/audience_portal_content_1.png)
+
+**Attention:** These portal configurations are based on these files [models-aas repo - Portal Configurations](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/portal), **BUT** some of the files are updated as the ones on the repo did create the pages as they should and some files are not working.
+
+- From the *"deployment/3scale/portal"* folder, apply all the modifications to the different pages and Publish them.
+- The content of this folder is arranged following the same organization of the site.
+- New Pages may have to be created with the type depending of the type of content (html, javascript, css), some others have only to be modified.
+- **DO NOT FORGET** to save and publish both the *Draft* and *Published*
+- Files that should be ***edited*** are as follows:
+  - **Layouts**
+    - **Main Layout** 
+  - **Root**
+    - **Homepage**
+    - **Docmentation**
+    - **Applications->Show**
+    - **Applications->Choose Service**
+    - **Applications->Index**
+    - **css->default.css**
+    - **Login->New**
+  - **Partials**
+    - **submenu**
+  
+- Files that should be ***created*** are as follows:
+- **Examples**
+- 
+  ![audience_portal_content_examples.png](img/audience_portal_content_examples.png)
+
+- **css->rhoai_custom.css**
+- 
+  ![audience_portal_content_rhoai_custom.png](img/audience_portal_content_rhoai_custom.png)
+
+- **javascripts->secret_keys.js**
+- 
+  ![audience_portal_content_secret_keys.png](img/audience_portal_content_secret_keys.png)
+
+- **images->rhoai.png**
+- 
+  ![audience_portal_content_images.png](img/audience_portal_content_images.png)
