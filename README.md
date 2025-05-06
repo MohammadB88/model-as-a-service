@@ -104,14 +104,16 @@ Give the product a display and a system name, as well as a description about the
 The created product is now added to the list.
 ![products_4.png](img/products_4.png)
 
-We now configure a backend for the product. 
-- Click on the product's name and go to the *"integration/Backends"* from the left menu
+##### --->>> Products - Backends <<<---
+
+- Click on the product's name and go to the *"integration->Backends"* from the left menu
   Add a backend by selecting the recently created backend and add it to the product:
   ![products_backends.png](img/products_backends.png)
 
-- Under the *"integration/Methods and Metrics"*, we add a method (e.g. *"List Models"*):
+##### --->>> Products - Methods & Mapping Rules <<<---
+
+- Under the *"integration->Methods and Metrics"*, we add a method (e.g. *"List Models"*):
   ![products_methods.png](img/products_methodes.png)
-  
 
 - Then we go to *"integration/Mapping Rules"*, and define available api-endpoints (*"Patterns"*) for that model:
   ![products_mappingrules.png](img/products_mappingrules.png)
@@ -121,6 +123,35 @@ We now configure a backend for the product.
   
   ![products_mappingrules_list.png](img/products_mappingrules_list.png)
 
+##### --->>> Products - Authentications <<<---
 
-- At this step we change the authentication method for using the products. Go to *"integration/Settings"*. Change the *"Auth user key"* field content to **Authorization** and the *"Credentials location"* field to **As HTTP Basic Authentication**. When finished, click on Update product at the bottom of the page to save the changes:
+- At this step we change the authentication method for using the products. Go to *"integration->Settings"*. Change the *"Auth user key"* field content to **Authorization** and the *"Credentials location"* field to **As HTTP Basic Authentication**. When finished, click on Update product at the bottom of the page to save the changes:
   ![products_authentication.png](img/products_authentication.png)
+  
+##### --->>> Products - Policies <<<---
+
+- We add two more policies to each product under the *"integration->Policies"* section:
+  - Add the Policies in this order:
+    1. CORS Request Handling:
+       1. ALLOW_HEADERS: `Authorization`, `Content-type`, `Accept`.
+       2. allow_origine: *
+       3. allow_credentials: checked
+       ![products_policies_CORS.png](img/products_policies_CORS.png)
+    2. Optionally LLM Monitor for OpenAI-Compatible token usage. See [Readme](./deployment/3scale/llm_metrics_policy/README.md) for information and configuration.
+    ![products_policies_LLMMonitor.png](img/products_policies_LLMMonitor.png)
+    3. 3scale APIcast
+  - After all the configurations, **DO NOT FORGET** to *"Update Policy Chain"*. Otherwise, all your changes will be lost.
+  ![products_policies_list.png](img/products_policies_list.png)
+
+##### --->>> Products - Applications & Application Plans <<<---
+
+- For each Product, from the *"Applications->Application Plans"* menu, create a new Application Plan. At the moment and for this plan, we are not forcing the approval for the applications.
+  ![products_application_plans.png](img/products_application_plans.png)
+
+- In the page, where application plans are listed, leave the Default plan to *"No plan selected"* so that users can choose their services for their applications. **Note that the plan is hidden and hence we should publish it**:
+  ![products_application_plans_1.png](img/products_application_plans_1.png)
+
+- In *"Applications->Settings->Usage"* Rules, set the Default Plan to Default. This will allow the users to see the different available Products:
+  ![products_application_plans_2.png](img/products_application_plans_2.png)
+
+
