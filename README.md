@@ -9,7 +9,7 @@ Further implementation could feature quotas, rate limits, different plans, billi
 
 ## Architecture Overview
 
-![architecture](docs/architecture.drawio.svg)
+![architecture](img/architecture.drawio.svg)
 
 ## Screenshots
 
