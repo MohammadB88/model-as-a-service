@@ -38,6 +38,7 @@ Red Hat 3Scale uses a *system storage* with RWX volume which can be provided by 
 
 ### Instructions
 - Create a project (e.g. ***3scale***) on openshift
+- Clone this repository: [model-as-a-service](https://github.com/MohammadB88/model-as-a-service.git) onto the cluster using a *web terminal* or the *bastian server*.
 - Create a secret using files in "[deployment/3scale/llm_metrics_policy](./deployment/3scale/llm_metrics_policy/)"
 
 ```sh
@@ -185,8 +186,9 @@ Hence, we add a *"spec"* under *"Active Docs"* for the product. In order to do t
 ![audience_1.png](img/audience_1.png)
 ![audience_portal_content_1.png](img/audience_portal_content_1.png)
 
-**Attention:** These portal configurations are based on these files [models-aas repo - Portal Configurations](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/portal), **BUT** some of the files are updated as the ones on the repo did create the pages as they should and some files are not working.
+**Attention:** These portal configurations are based on these files [models-aas repo - Portal Configurations](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/portal), **BUT** some of the files are updated as the ones on the repo did not create the pages as they should and some files are not working.
 
+- In this directory, go to this path: [deployment/3scale/portal](deployment/3scale/portal).
 - From the *"deployment/3scale/portal"* folder, apply all the modifications to the different pages and Publish them.
 - The content of this folder is arranged following the same organization of the site.
 - New Pages may have to be created with the type depending of the type of content (html, javascript, css), some others have only to be modified.
