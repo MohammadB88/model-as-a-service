@@ -4,7 +4,7 @@ metadata:
   name: vllm-gpu-mistral
   namespace: 3scale
 spec:
-  name: "Mistral in vllm-gpu-mistral"
+  name: "Granite on kserve-vllm-gpu-mistral"
   systemName: "vllm-gpu-mistral"
   applicationPlans:
     standard:
@@ -12,8 +12,14 @@ spec:
       appsRequireApproval: false
       published: true
   methods:
+    version:
+      friendlyName: "Version"
+      description: "vLLM Runtime Version"
+    health:
+      friendlyName: "Health"
+      description: "vLLM Runtime Health"
     v1-models:
-      friendlyName: List Models
+      friendlyName: "List Models"
       description: "List all models"
     v1-completions:
       friendlyName: Completions
@@ -21,6 +27,12 @@ spec:
     v1-chat-completions:
       friendlyName: Chat Completions
       description: "Chat Completions"
+    tokenize:
+      friendlyName: Tokenize Text
+      description: "Tokenize Text"
+    detokenize:
+      friendlyName: Detokenize Text
+      description: "Detokenize Text"
   metrics:
     hits:
       description: Number of API hits
@@ -28,27 +40,48 @@ spec:
       unit: hit
   mappingRules:
     - httpMethod: GET
+      pattern: "/version"
+      increment: 1
+      metricMethodRef: version
+    - httpMethod: GET
+      pattern: "/health"
+      increment: 1
+      metricMethodRef: health
+    - httpMethod: GET
       pattern: "/v1/models"
       increment: 1
-      metricMethodRef: List Models
+      metricMethodRef: v1-models
     - httpMethod: POST
       pattern: "/v1/completions"
       increment: 1
-      metricMethodRef: Completions
+      metricMethodRef: v1-completions
     - httpMethod: POST
       pattern: "/v1/chat/completions"
       increment: 1
-      metricMethodRef: Chat Completions
+      metricMethodRef: v1-chat-completions
+    - httpMethod: POST
+      pattern: "/tokenize"
+      increment: 1
+      metricMethodRef: tokenize
+    - httpMethod: POST
+      pattern: "/detokenize"
+      increment: 1
+      metricMethodRef: detokenize
   policies:
     - configuration: {}
       configurationRef: {}
       enabled: true
-      name: apicast
+      name: corsrequesthandling
       version: builtin
     - configuration: {}
       configurationRef: {}
       enabled: true
-      name: corsrequesthandling
+      name: llmmonitor
+      version: builtin
+    - configuration: {}
+      configurationRef: {}
+      enabled: true
+      name: apicast
       version: builtin
   backendUsages:
     vllm-gpu-mistral:

@@ -1,0 +1,9 @@
+apiVersion: capabilities.3scale.net/v1beta1
+kind: Backend
+metadata:
+  name: vllm-cpu-tinyllama
+  namespace: 3scale
+spec:
+  name: TinyLlama on vllm-cpu
+  privateBaseURL: http://vllm.vllm-cpu.svc.cluster.local:8000
+  systemName: vllm-cpu-tinyllama

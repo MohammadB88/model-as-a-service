@@ -4,6 +4,6 @@ metadata:
   name: vllm-gpu-mistral
   namespace: 3scale
 spec:
-  name: Mistral in vllm-gpu-mistral
+  name: Mistral on vllm-gpu
   privateBaseURL: http://vllm.vllm-gpu.svc.cluster.local:8000
   systemName: vllm-gpu-mistral
