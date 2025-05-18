@@ -31,10 +31,10 @@ Statistics:
 
 
 ## Deployment - Red Hat 3Scale
-These deployments are working on an OpenShift AI intance on the RedHat demo platform.
+These deployments are working on an OpenShift AI instance on the Red Hat demo platform.
 
 ### Requirements
-Red Hat 3Scale uses a *system storage* with RWX volume which can be provided by *Openshift Data Foundation*.
+Red Hat 3scale uses a *system storage* with an RWX volume, which can be provided by *OpenShift Data Foundation*.
 
 ### Instructions
 - Create a project (e.g. ***3scale***) on openshift
