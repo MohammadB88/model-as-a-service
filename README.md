@@ -1,9 +1,9 @@
 # model-as-a-service
-This repository provides an step by step guide to build a 'Model as a Service' based on Red Hat products, *3scale* and *Single Sign On*. It is an extension of the work presented in [model-aas](https://github.com/rh-aiservices-bu/models-aas) with more detailed instructions.
+This repository provides a step by step guide to building a 'Model as a Service' based on Red Hat products, *3scale* and *Single Sign-On*. It is an extension of the work presented in [model-aas](https://github.com/rh-aiservices-bu/models-aas) with more detailed instructions.
 
-At the end  offer your users a portal through which they can register and get access keys to the models' endpoints.
+At the end, offer your users a portal through which they can register and get access keys to the models' endpoints.
 
-Although not a reference architecture (there are many ways to implement this type of solution), this can serve as starting point to create such a service in your environment.
+Although not a reference architecture (there are many ways to implement this type of solution), this can serve as a starting point to create such a service in your environment.
 
 Further implementation could feature quotas, rate limits, different plans, billing,...
 
