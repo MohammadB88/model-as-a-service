@@ -55,7 +55,9 @@ oc create secret generic llm-metrics \
 
 Hinweis: These files are copied from [APIcast LLM Metrics Policy](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/llm_metrics_policy#apicast-llm-metrics-policy)
 
-- Deploy the Red Hat Integration-3scale operator in the ***3scale*** namespace only!
+- Deploy the Red Hat Integration-3scale operator in the ***3scale*** namespace only, as shown below:
+![ocp_3scale_operator_1.png](img/ocp_3scale_operator_1.png)
+![ocp_3scale_operator_2.png](img/ocp_3scale_operator_2.png)
 
 - Go to the installed operator page and create a Custom Policy Definition instance using [deployment/3scale/llm-metrics-policy.yaml](./deployment/3scale/llm-metrics-policy.yaml). 
     - **Attention:** Namespace should be the same as the one where the 3scale operator is installed.
@@ -76,6 +78,7 @@ For example, I set the name to *"MaaS on RHOAI"* and time to *"Berlin"*.
 
 ![account_setting_1.png](img/account_setting_1.png)
 ![account_setting_2.png](img/account_setting_2.png)
+
 
 *"Organization Name"* appears at the top left corner of the main page.
 ![portal_orga_name.png](img/portal_orga_name.png)
