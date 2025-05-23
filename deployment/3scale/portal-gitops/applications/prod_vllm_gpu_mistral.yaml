@@ -1,0 +1,12 @@
+apiVersion: capabilities.3scale.net/v1beta1
+kind: Application
+metadata:
+  name: mistral-7b-instruct
+spec:
+  accountCR:
+    name: johndoe
+  applicationPlanName: standard
+  productCR:
+    name: vllm-gpu-mistral
+  name: mistral-7b-instruct
+  description: This application uses the Mistral 7B model for instruction following tasks.
