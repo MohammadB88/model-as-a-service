@@ -179,6 +179,13 @@ Hinweis: These files are copied from [APIcast LLM Metrics Policy](https://github
     - **Attention 2:** The attribute ***wildcardDomain*** contains the main domain for the cluster, where *3scale* is deployed. 
     For example, if I deploy my *3scale* instance in a cluster with *URL: https://console-openshift-console.apps.cluster-abc.abc.sandbox123.opentlc.com*, then the variable should be set as *wildcardDomain: apps.cluster-abc.abc.sandbox123.opentlc.com*
 
+    - **Attention 3:** After creating your *APIManager* instance (e.g., apimanager-sample), the status may show **Preflights**. 
+This means scale is performing initial checks before full deployment. It's normal and may take a few minutes.
+
+      **What to do:** Just wait. The status will change to **Available, Running**, or disappear once the checks are complete. Refresh the page occasionally to monitor progress.
+ 
+
+
 - It takes some minutes till all the Deployments (15) are finished successfully. 
 
 - Go to the *routes* on your cluster and find the one that starts with *https://maas-admin ...*.
