@@ -7,32 +7,26 @@ Although not a reference architecture (there are many ways to implement this typ
 
 Further implementation could feature quotas, rate limits, different plans, billing,...
 
-What This Project Is About
-
-This project is like a **DIY guide** for building a secure, manageable **Machine Learning Model as a Service (MaaS)**,  essentially a web API that delivers predictions, using **Red Hat tools**.
-
-It walks you through deploying a model that users can access via a web portal, where they can sign up, get API keys, and interact with your model.
-
+**What This Project Is About**  
+This project is like a **DIY guide** for building a secure, manageable **Machine Learning Model as a Service (MaaS)**,  essentially a web API that delivers predictions, using **Red Hat tools**.  
+It walks you through deploying a model that users can access via a web portal, where they can sign up, get API keys, and interact with your model.  
 This Guide is an enhanced version of an earlier project (model-aas), with more detailed steps for easier understanding — especially if you’re learning or building a prototype.
 
-**Technologies Used**:
-
+**Technologies Used**:  
   * **OpenShift** – to deploy your model
   * **3scale API Management** – to control, track, and limit access
   * **Single Sign-On (SSO)** – to manage secure user logins
+  
 
-**What You’ll Build**
-
+**What You’ll Build**  
 By following this guide, you’ll have:
-
   * A **Developer Portal** (a web interface for users)
   * A system where users can:
     - Sign up and log in securely
     - Receive their own **API keys**
     - Use your model safely via those keys 
  
-**Optional Advanced Features You Can Add Later**
-
+**Optional Advanced Features You Can Add Later**  
   * **Quotas** – limit how much each user can access
   * **Rate limits** – control how frequently requests are made
   * **Access plans** – like free vs. paid tiers
@@ -74,6 +68,60 @@ Similar to how commercial APIs like OpenAI or Google Cloud operate.
 ## Architecture Overview
 
 ![architecture](img/architecture.drawio.svg)
+
+**How the Components Work Together**  
+The diagram above illustrates how all the parts of the MaaS architecture interact, from the user sending a request to the model delivering a response, using *3scale* and *OpenShift AI*.
+
+ **What’s Happening in the Diagram?**  
+At a high level, this setup connects a client application to a machine learning model via a secure, managed API pathway. Here’s how each part contributes:
+ 1. **Application (Client Side)**  
+This could be any software — like a web or mobile app — that wants to use your model’s prediction service.  
+  - It sends a request to your API (e.g. with input data)
+  - The request travels first to the 3scale API Gateway
+ 2. **3scale API Gateway (Traffic Controller)**  
+ This component ensures only valid and authorized requests are allowed through.
+  - Verifies API keys and access permissions
+  - Reports traffic and usage data to the API Manager
+  - Forwards approved requests to the ML model hosted on OpenShift AI
+
+3. **3scale API Manager (Control Center)**  
+ Acts as the decision-maker and bridge between other parts.
+  - Manages:
+    - Access control and usage policies
+    - Communication with the API Gateway for real-time verification
+    - Synchronization with the Developer Portal to publish API specs
+    - Backend configurations via the Admin Portal
+
+4. **3scale Developer Portal (User Interface for Developers)**  
+ A self-service portal for external users who want to access your model.
+  - Lets users:
+    - Register for an account
+    - Explore your API documentation
+    - Retrieve their personal API keys
+
+5. **3scale Admin Portal (Your Control Panel)**  
+ Designed for the API owner or system admin.
+  - Allows you to:
+    - Define access plans (e.g., free vs premium)
+    - Monitor API usage analytics
+    - Manage users, API keys, and billing
+
+6. **OpenShift AI (Model Hosting Environment)**  
+ This is where your deployed machine learning model lives.
+  - Receives requests forwarded by the API Gateway
+  - Processes input data and returns predictions
+  - Supports scaling, versioning, and lifecycle management for your model
+
+ **Summary: Request Flow**
+  1. A client application sends an API request.
+  2. The request goes to the API Gateway, which checks with the API Manager.
+  3. If the request is valid, it’s forwarded to the OpenShift AI model.
+  4. The model generates and returns a prediction.
+  5. Usage data is logged and sent to the API Manager.
+  6. Developers manage their access through the Developer Portal.
+  7. Admins manage the system via the Admin Portal.
+
+
 
 ## Screenshots
 
