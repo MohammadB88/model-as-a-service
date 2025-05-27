@@ -5,7 +5,7 @@ At the end, offer your users a portal through which they can register and get ac
 
 Although not a reference architecture (there are many ways to implement this type of solution), this can serve as a starting point to create such a service in your environment.
 
-Further implementation could feature quotas, rate limits, different plans, billing,...
+Further implementation could feature quotas, rate limits, different plans, billing, ...
 
 **What This Project Is About**  
 This project is like a **DIY guide** for building a secure, manageable **Machine Learning Model as a Service (MaaS)**,  essentially a web API that delivers predictions, using **Red Hat tools**.  
@@ -162,7 +162,7 @@ oc create secret generic llm-metrics \
     --from-file=./llm.lua \
     --from-file=./portal_client.lua \
     --from-file=./response.lua \
-    && oc label secret llm-metrics apimanager.apps.3scale.net/watched-by=apimanager
+    && oc label secret llm-metrics apimanager.apps.3scale.net/watched-by=apimanager -n 3scale
 ```
 
 Hinweis: These files are copied from [APIcast LLM Metrics Policy](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/llm_metrics_policy#apicast-llm-metrics-policy)
