@@ -7,6 +7,70 @@ Although not a reference architecture (there are many ways to implement this typ
 
 Further implementation could feature quotas, rate limits, different plans, billing,...
 
+What This Project Is About
+
+This project is like a **DIY guide** for building a secure, manageable **Machine Learning Model as a Service (MaaS)**,  essentially a web API that delivers predictions, using **Red Hat tools**.
+
+It walks you through deploying a model that users can access via a web portal, where they can sign up, get API keys, and interact with your model.
+
+This Guide is an enhanced version of an earlier project (model-aas), with more detailed steps for easier understanding — especially if you’re learning or building a prototype.
+
+**Technologies Used**:
+
+  * **OpenShift** – to deploy your model
+  * **3scale API Management** – to control, track, and limit access
+  * **Single Sign-On (SSO)** – to manage secure user logins
+
+**What You’ll Build**
+
+By following this guide, you’ll have:
+
+  * A **Developer Portal** (a web interface for users)
+  * A system where users can:
+    - Sign up and log in securely
+    - Receive their own **API keys**
+    - Use your model safely via those keys 
+ 
+**Optional Advanced Features You Can Add Later**
+
+  * **Quotas** – limit how much each user can access
+  * **Rate limits** – control how frequently requests are made
+  * **Access plans** – like free vs. paid tiers
+  * **Billing systems** – charge based on usage  
+Similar to how commercial APIs like OpenAI or Google Cloud operate.
+  
+**How It Works: The Flow**
+  1. A user visits the Developer Portal
+  2. They log in via SSO (Single Sign-On)
+  3. They receive an API key
+  4. They send requests to your model using the key
+  5. 3scale checks if they’re allowed and monitors usage
+  6. If permitted, the request reaches the model
+  7. The model returns a prediction/result
+ 
+ **Core Components**  
+ This project is made up of *four* main components that work together to deliver your Machine Learning Model as a Service.
+1. **Developer Portal**  
+  - Web interface for users to:
+    - Sign up / Log in
+    - Discover available APIs
+    - Get access credentials (API keys)
+  -  Think of it as a dashboard for developers.
+2. **API Management with 3scale**
+  - Controls who can access your model
+  - Tracks usage (analytics)
+  - Enforces quotas, rate limits, and subscription plans
+  - Acts as the gatekeeper for your API
+3. **Single Sign-On (SSO)**
+  - Provides secure login via one authentication system
+  - Enables seamless access across services
+  - Tools like Keycloak or Red Hat SSO are commonly used
+4. **Machine Learning Model as a Service**
+  - Your model is deployed in the cloud (e.g., on OpenShift)
+  - It receives input via API calls and returns predictions
+  - Examples: Predict house prices, detect fraud, classify images, etc.
+
+
 ## Architecture Overview
 
 ![architecture](img/architecture.drawio.svg)
