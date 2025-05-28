@@ -178,6 +178,8 @@ Hinweis: These files are copied from [APIcast LLM Metrics Policy](https://github
 ![CPD_operator_1.png](img/CPD_operator_1.png)
 ![CPD_operator_2.png](img/CPD_operator_2.png)
 
+⚠️ **Note:** You may see a *'failed'* status for the policy definition at this stage. This can be ignored - continue with the next steps.
+
 - On the same page, go to the ***"API Manager"*** tab and create an instance using [deployment/3scale/apimanager.yaml](./deployment/3scale/apimanager.yaml). 
     - **Attention 1:** The namespace should be the same as the one where the 3scale operator is installed.
     - **Attention 2:** The ***wildcardDomain*** attribute contains(*defines*) the main domain for the cluster, where *3scale* is deployed. 
