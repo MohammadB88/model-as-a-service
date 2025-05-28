@@ -375,19 +375,21 @@ Under the **Audience** section, go to the *"Developer Portal → Content"* and b
   - **Partials**
     - **submenu**
   
-- Files that should be ***created*** are as follows:
-  - **Examples**
+- Files that should be ***created*** in the Developer Portal content section are as follows:
+(*In this step, we will add new pages and files to the Developer Portal, based on the specifications listed below.*)
+  - **Examples:** Create a 'New Page' named *'Examples'*.
 
   ![audience_portal_content_examples.png](img/audience_portal_content_examples.png)
 
-- **css->rhoai_custom.css**
+- **css → rhoai_custom.css:** Create a 'New Page' named *'rhoai_custom.css'* under the **css** section.
 
   ![audience_portal_content_rhoai_custom.png](img/audience_portal_content_rhoai_custom.png)
 
-- **javascripts->secret_keys.js**
+- **javascripts → secret_keys.js:** Create a 'New Page' named *'secret_keys.js'* under the **javascripts** section.
+
 
   ![audience_portal_content_secret_keys.png](img/audience_portal_content_secret_keys.png)
 
-- **images->rhoai.png**
+- **images → rhoai.png:** Create a 'New File' named *'rhoai.png'* under the **images** section.
  
   ![audience_portal_content_images.png](img/audience_portal_content_images.png)
