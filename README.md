@@ -1,46 +1,15 @@
 # model-as-a-service
-This repository provides a step by step guide to building a 'Model as a Service' based on Red Hat products, *3scale* and *Single Sign-On*. It is an extension of the work presented in [model-aas](https://github.com/rh-aiservices-bu/models-aas) with more detailed instructions.
+This repository provides a step by step guide to building a 'Model as a Service' based on Red Hat products, *Openshift AI*, *3scale* and *Single Sign-On*. It is an extension of the work presented in [model-aas](https://github.com/rh-aiservices-bu/models-aas) with more detailed instructions.
 
-At the end, offer your users a portal through which they can register and get access keys to the models' endpoints.
+**Purpose of the Project**  
+This project is a walk-through for users to access deployed models on for example *Openshift AI* via a web portal, where they can sign up, get API keys, and interact with the provided models as backend products. It works very similar to how commercial APIs like OpenAI or Google Cloud operate.
 
-Although not a reference architecture (there are many ways to implement this type of solution), this can serve as a starting point to create such a service in your environment.
-
-Further implementation could feature quotas, rate limits, different plans, billing, ...
-
-**What This Project Is About**  
-This project is like a **DIY guide** for building a secure, manageable **Machine Learning Model as a Service (MaaS)**,  essentially a web API that delivers predictions, using **Red Hat tools**.  
-It walks you through deploying a model that users can access via a web portal, where they can sign up, get API keys, and interact with your model.  
-This Guide is an enhanced version of an earlier project (model-aas), with more detailed steps for easier understanding - especially if you’re learning or building a prototype.
+A user logs into the Developer Portal via SSO and creates an application, which automatically generates a model endpoint and API key. They use this key to send requests to the model, with 3scale validating access and monitoring usage. The model then returns predictions or results based on the requests.
 
 **Technologies Used**:  
-  * **OpenShift** – to deploy your model
+  * **OpenShift AI** – to deploy your model
   * **3scale API Management** – to control, track, and limit access
   * **Single Sign-On (SSO)** – to manage secure user logins
-  
-
-**What You’ll Build**  
-By following this guide, you’ll have:
-  * A **Developer Portal** (a web interface for users)
-  * A system where users can:
-    - Sign up and log in securely
-    - Receive their own **API keys**
-    - Use your model safely via those keys 
- 
-**Optional Advanced Features You Can Add Later**  
-  * **Quotas** – limit how much each user can access
-  * **Rate limits** – control how frequently requests are made
-  * **Access plans** – like free vs. paid tiers
-  * **Billing systems** – charge based on usage  
-Similar to how commercial APIs like OpenAI or Google Cloud operate.
-  
-**How It Works: The Flow**
-  1. A user visits the Developer Portal
-  2. They log in via SSO (Single Sign-On)
-  3. They receive an API key
-  4. They send requests to your model using the key
-  5. 3scale checks if they’re allowed and monitors usage
-  6. If permitted, the request reaches the model
-  7. The model returns a prediction/result
  
  **Core Components**  
  This project is made up of *four* main components that work together to deliver your Machine Learning Model as a Service.
@@ -62,66 +31,26 @@ Similar to how commercial APIs like OpenAI or Google Cloud operate.
 4. **Machine Learning Model as a Service**
   - Your model is deployed in the cloud (e.g., on OpenShift)
   - It receives input via API calls and returns predictions
-  - Examples: Predict house prices, detect fraud, classify images, etc.
 
 
 ## Architecture Overview
 
 ![architecture](img/architecture.drawio.svg)
 
-**How the Components Work Together**  
-The diagram above illustrates how all the parts of the MaaS architecture interact, from the user sending a request to the model delivering a response, using *3scale* and *OpenShift AI*.
+The diagram above illustrates how all the parts of the MaaS architecture interact, from the user sending a request to the model delivering a response, using *3scale* and *OpenShift AI*. At a high level, this setup connects a client application to a machine learning model via a secure, managed API pathway. 
 
- **What’s Happening in the Diagram?**  
-At a high level, this setup connects a client application to a machine learning model via a secure, managed API pathway. Here’s how each part contributes:
- 1. **Application (Client Side)**  
-This could be any software -like a web or mobile app - that wants to use your model’s prediction service.  
-  - It sends a request to your API (e.g. with input data)
-  - The request travels first to the 3scale API Gateway
- 2. **3scale API Gateway (Traffic Controller)**  
- This component ensures only valid and authorized requests are allowed through.
-  - Verifies API keys and access permissions
-  - Reports traffic and usage data to the API Manager
-  - Forwards approved requests to the ML model hosted on OpenShift AI
+Here’s how each part contributes:
 
-3. **3scale API Manager (Control Center)**  
- Acts as the decision-maker and bridge between other parts.
-  - Manages:
-    - Access control and usage policies
-    - Communication with the API Gateway for real-time verification
-    - Synchronization with the Developer Portal to publish API specs
-    - Backend configurations via the Admin Portal
+The client-side application (e.g., a web or mobile app) sends a request with input data to your API, which first passes through the 3scale API Gateway.
 
-4. **3scale Developer Portal (User Interface for Developers)**  
- A self-service portal for external users who want to access your model.
-  - Lets users:
-    - Register for an account
-    - Explore your API documentation
-    - Retrieve their personal API keys
+**3scale API Gateway**
+The 3scale API Gateway acts as a traffic controller, verifying API keys, enforcing access permissions, reporting usage, and forwarding authorized requests to the ML model on OpenShift AI. The 3scale API Manager serves as the control center, managing access policies, syncing with the Developer Portal, configuring backends, and coordinating with the API Gateway for real-time request validation.
 
-5. **3scale Admin Portal (Your Control Panel)**  
- Designed for the API owner or system admin.
-  - Allows you to:
-    - Define access plans (e.g., free vs premium)
-    - Monitor API usage analytics
-    - Manage users, API keys, and billing
+**3scale Developer and Admin Portal**
+The 3scale Developer Portal is a self-service interface where external users can register, access API documentation, and retrieve their personal API keys. Meanwhile, the 3scale Admin Portal is the API owner's control panel, enabling them to define access plans, manage users and billing, and monitor API usage and analytics.
 
-6. **OpenShift AI (Model Hosting Environment)**  
- This is where your deployed machine learning model lives.
-  - Receives requests forwarded by the API Gateway
-  - Processes input data and returns predictions
-  - Supports scaling, versioning, and lifecycle management for your model
-
- **Summary: Request Flow**
-  1. A client application sends an API request.
-  2. The request goes to the API Gateway, which checks with the API Manager.
-  3. If the request is valid, it’s forwarded to the OpenShift AI model.
-  4. The model generates and returns a prediction.
-  5. Usage data is logged and sent to the API Manager.
-  6. Developers manage their access through the Developer Portal.
-  7. Admins manage the system via the Admin Portal.
-
-
+**OpenShift AI - Model Hosting**  
+OpenShift AI is the hosting environment for your deployed machine learning model, where it receives requests forwarded by the API Gateway. It processes input data to generate predictions and supports model scaling, versioning, and lifecycle management.
 
 ## Screenshots
 
@@ -146,10 +75,10 @@ Statistics:
 These deployments are working on an OpenShift AI instance on the Red Hat demo platform.
 
 ### Requirements 
-Red Hat 3scale uses a *system storage* (*persistent system storage*) with an RWX volume, which can be provided by *OpenShift Data Foundation (ODF)*.
+Red Hat 3scale uses a *persistent system storage* with an RWX volume, which can be provided by *OpenShift Data Foundation (ODF)*.
 
 ### Instructions
-- **Create a project** (e.g. ***3scale***) on openshift. (*in your openshift cluster*)
+- **Create a project** (e.g. ***3scale***) in your openshift cluster
 - **Clone this repository:** [model-as-a-service](https://github.com/MohammadB88/model-as-a-service.git) onto the cluster using a *web terminal* or the *bastion server*.
 - **Create a secret using files** in "[deployment/3scale/llm_metrics_policy](./deployment/3scale/llm_metrics_policy/)"
 
@@ -165,7 +94,7 @@ oc create secret generic llm-metrics \
     && oc label secret llm-metrics apimanager.apps.3scale.net/watched-by=apimanager -n 3scale
 ```
 
-Hinweis: These files are copied from [APIcast LLM Metrics Policy](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/llm_metrics_policy#apicast-llm-metrics-policy)
+⚠️ **Note:** These files are copied from [APIcast LLM Metrics Policy](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/llm_metrics_policy#apicast-llm-metrics-policy)
 
 - Deploy the Red Hat Integration-3scale operator into the ***3scale*** namespace only, as shown below:
 
@@ -184,7 +113,6 @@ Hinweis: These files are copied from [APIcast LLM Metrics Policy](https://github
     - **Attention 1:** The namespace should be the same as the one where the 3scale operator is installed.
     - **Attention 2:** The ***wildcardDomain*** attribute contains(*defines*) the main domain for the cluster, where *3scale* is deployed. 
     For example, if you deploy your *3scale* instance in a cluster with *URL: https://console-openshift-console.apps.cluster-abc.abc.sandbox123.opentlc.com*, then the variable should be set as: *wildcardDomain: apps.cluster-abc.abc.sandbox123.opentlc.com*
-
     - **Attention 3:** After creating your *APIManager* instance (e.g., apimanager-sample), the status may show **Preflights**. 
 This means scale is performing initial checks before full deployment. It's normal and may take a few minutes.
 
@@ -195,7 +123,7 @@ This means scale is performing initial checks before full deployment. It's norma
 
 - Go to the *Routes* section of your cluster and find the one that starts with *https://maas-admin ...*.
 
-- Open the link and log in using the credentials stored in the *system-seed* secret (ADMIN_USER and ADMIN_PASSWORD). 
+- Open the link and log in using the credentials stored in the secret *'system-seed'* (ADMIN_USER and ADMIN_PASSWORD). 
 
 - After logging in, close the widget page and go to the **"Account Settings"** to set your *Organization Name* and your *Timezone*. 
 For example, you might set the name to *"MaaS on RHOAI"* and time zone to *"Berlin"*. 
@@ -222,8 +150,7 @@ When created, you will see that the backend has been added to the list.
 
 ![backend_4.png](img/backend_4.png)
 
-⚠️ **Note:** *If you have more models deployed, add them here using the same process.*  
-(💡 **Tip:** To add additional models, repeat this process for each one deployed.) 
+💡 **Tip:** To add additional models, repeat this process for each one of them
 
 
 #### Products - APIs for Customers
@@ -284,14 +211,14 @@ We add two more policies to each product under the *"integration → Policies"* 
 
     ![products_policies_CORS.png](img/products_policies_CORS.png)
 
-    2.*(Optional)* **LLM Monitor** - for OpenAI-Compatible token usage. See [Readme](./deployment/3scale/llm_metrics_policy/README.md) for more information and configuration.
+    2. *(Optional)* **LLM Monitor** - for OpenAI-Compatible token usage. See [Readme](./deployment/3scale/llm_metrics_policy/README.md) for more information and configuration.
 
     ![products_policies_LLMMonitor.png](img/products_policies_LLMMonitor.png)
 
     3. **3scale APIcast**
 
   💡**Important:** After completing the configuration, **DO NOT FORGET to click "Update Policy Chain".**  
-    If you skip this step, all your changes will be lost.
+    Otherwise, all your changes will be lost.
 
   ![products_policies_list.png](img/products_policies_list.png)
 
@@ -308,7 +235,7 @@ We add two more policies to each product under the *"integration → Policies"* 
 
   ![products_application_plans.png](img/products_application_plans.png)
 
-- On the page, where application plans are listed, leave the *Default plan* set to *"No plan selected"* so users can choose their preferrend services for their (*when creating*) applications. **Note that the plan is hidden by difoult and hence we should publish it**:
+- On the page, where application plans are listed, leave the *Default plan* set to *"No plan selected"* so users can choose their preferrend services when creating applications. **Note that the plan is hidden by default and hence we should publish it**:
 
   ![products_application_plans_1.png](img/products_application_plans_1.png)
 
@@ -316,7 +243,7 @@ We add two more policies to each product under the *"integration → Policies"* 
 
   ![products_application_plans_2.png](img/products_application_plans_2.png)
 
-**Attention:** When creating a new application from the (*developer*) portal, the only available plan is a default *"Basic"* plan:
+**Attention:** When creating a new application from the developer portal, the only available plan is a default *"Basic"* plan:
 
 ![portal_applicaion_basic.png](img/portal_applicaion_basic.png)
 
@@ -331,14 +258,14 @@ This way, we can now select the desired product (in our case e.g., *"granite-7b-
 
 ##### --->>> Products - Active Docs <<<---
 
-**Attention:** Without *"Active Docs"*, the *"Enpoint URL"* will not be displayed on the application page in the (*developer*) portal:
+**Attention:** Without *"Active Docs"*, the *"Enpoint URL"* will not be displayed on the application page in the developer portal:
 
 ![portal_applicaion_endpointURL.png](img/portal_applicaion_endpointURL.png)
 
 To fix this, we add a *"spec"* under *"Active Docs"* for the product. In order to do that,
   - Copy the content of the file: [deployment/3scale/active_docs.json](./deployment/3scale/active_docs.json)
   - Paste it into the corresponding section of the *Active Docs > spec* form.
-  - Set a proper (*meaning*) *"name"* and *"system name"*.
+  - Set a proper (or meaningful) *"name"* and *"system name"*.
   - Check the box to *"publish the docs"* and click on *"Create spec"*.
 
 ![products_active_docs.png](img/products_active_docs.png)
@@ -350,14 +277,13 @@ Under the **Audience** section, go to the *"Developer Portal → Content"* and b
 ![audience_1.png](img/audience_1.png)
 ![audience_portal_content_1.png](img/audience_portal_content_1.png)
 
-**Attention:** These portal configurations are based on these files [models-aas repo - Portal Configurations](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/portal). **Hoever** some files in the Repository have been updated, as the original versions on the repo did not create the pages correctly and a few are non-functional.
+⚠️ **Note:** These portal configurations are based on these files [models-aas repo - Portal Configurations](https://github.com/rh-aiservices-bu/models-aas/tree/main/deployment/3scale/portal). **However** some files in the Repository have been updated, as the original versions on the repo did not create the pages correctly and a few are non-functional.
 
-- In this directory, go to this path (*Navigate to the following directory in your cloned repo*): [deployment/3scale/portal](deployment/3scale/portal).
+- In this directory, navigate to the following directory in your cloned repo: [deployment/3scale/portal](deployment/3scale/portal).
 - From the *"deployment/3scale/portal"* folder, apply all necessary modifications to the relevant pages. Then make sure to *"Save and Publish"*, both the *Draft* and *Published* versions.
-- **Structure:** The content of this folder are arranged following the same organization of the site. (*The content of this folder are organized to match the layout of the Developer Portal site.*)
+- **Structure:** The content of this folder are organized to match the layout of the Developer Portal site.
 
-⚠️ **Note:** New Pages may have to be created with the type depending of the type of content (html, javascript, css), some others have only to be modified.
-(*Some pages may need to be created. Choose the type based on the content (HTML, JavaScript, CSS). Others may already exist and only need to be updated.*)
+⚠️ **Note:** Some pages may need to be created. Choose the type based on the content (HTML, JavaScript, CSS). Others may already exist and only need to be updated.
 
 ⚠️ **Note:** DO NOT FORGET to save and publish both the *Draft* and *Published*.
 
@@ -375,8 +301,7 @@ Under the **Audience** section, go to the *"Developer Portal → Content"* and b
   - **Partials**
     - **submenu**
   
-- Files that should be ***created*** in the Developer Portal content section are as follows:
-(*In this step, we will add new pages and files to the Developer Portal, based on the specifications listed below.*)
+- In this step, we will add new pages and files to the default **Developer Portal**, based on the specifications listed below:
   - **Examples:** Create a 'New Page' named *'Examples'*.
 
   ![audience_portal_content_examples.png](img/audience_portal_content_examples.png)
