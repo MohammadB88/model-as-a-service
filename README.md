@@ -72,7 +72,7 @@ Statistics:
 
 
 ## Deployment - Red Hat 3Scale
-These deployments are working on an OpenShift AI instance on the Red Hat demo platform.
+⚠️ **Note:** These deployments are working on an OpenShift AI instance on the Red Hat demo platform.
 
 ### Requirements 
 Red Hat 3scale uses a *persistent system storage* with an RWX volume, which can be provided by *OpenShift Data Foundation (ODF)*.
@@ -318,3 +318,138 @@ Under the **Audience** section, go to the *"Developer Portal → Content"* and b
 - **images → rhoai.png:** Create a 'New File' named *'rhoai.png'* under the **images** section.
  
   ![audience_portal_content_images.png](img/audience_portal_content_images.png)
+
+## Deployment - Red Hat Single-Sign-On
+The Red Hat Single Sign-On (SSO) Operator automates the deployment and management of the Keycloak-based SSO server on OpenShift. It handles tasks like provisioning, configuration, scaling, and updates of the SSO service. This operator simplifies integrating identity and access management (IAM) into applications by providing centralized authentication through standards like OpenID Connect and SAML.
+
+Keycloak is an open-source identity and access management (IAM) solution developed by Red Hat. It provides features like single sign-on (SSO), user federation, identity brokering, and social login integration. Keycloak supports standard protocols such as OpenID Connect, OAuth 2.0, and SAML 2.0 for secure authentication and authorization. It enables developers to easily secure applications and services without writing custom authentication logic.
+
+**Authentication and Authorization Standard Protocols:**
+**OpenID Connect** is an authentication protocol built on top of OAuth 2.0 that allows users to verify their identity and obtain basic profile information.
+
+**OAuth 2.0** is an authorization framework that enables applications to access user resources on another service without exposing user credentials.
+
+**SAML 2.0** (Security Assertion Markup Language) is an XML-based protocol used for exchanging authentication and authorization data between identity providers and service providers, commonly used in enterprise SSO scenarios.
+
+⚠️ **Note:** These deployments are working on an OpenShift AI instance on the Red Hat demo platform.
+
+### Instructions
+- **Create a project** (e.g. ***rh-sso***) in your openshift cluster
+- Deploy the Red Hat Single Sign-On operator in the ***rh-sso*** namespace
+- Create a Keycloak instance using [keycloak.yaml](deployment/rh-sso/keycloak.yaml)
+- Create a rhoai KeycloakRealm using [keycloakrealm-maas.yaml](deployment/rh-sso/keycloakrealm-maas.yaml)
+⚠️ **Note:**  These two files are copied from Red Hat provided repository: [model-aas](https://github.com/rh-aiservices-bu/models-aas)
+
+
+- Log in to the Keycloak Admin UI:
+    - Route is in the Routes section and starts with *https://keycloak-rh-sso....*, 
+    - Access credentials are in `Secrets->credentials-rh-sso`).
+
+  ![rhsso_login.png](img/rhsso_login.png)
+
+- Open the page ``OpenID Endpoint Configuration`` which provides all the endpoints the client realm needs to connect to ``maas`` using Keycloak OpenID Connect. They will be used when we configure the **identity provider**:
+  ![rhsso_endpoints.png](img/rhsso_endpoints.png)
+
+#### Create a Client
+
+- In the left-hand menu, click Clients and create a new client.
+  - Enter the following:
+     - **Client ID:** ``3scale``
+     - **Client Protocol:** ``openid-connect``
+  ![rhsso_client_create.png](img/rhsso_client_create.png)
+
+- After saving, configure the Client Settings:
+  - **Access Type:** Set to ``confidential``
+  - Standard Flow Enabled: ✅ ON
+  - Under Valid Redirect URIs set the wildcard ``*`` (good for testing, but not recommended in production)
+
+  ![rhsso_client_create1.png](img/rhsso_client_create1.png)
+
+- Get the **Client Secret** by going to the ``Credentials`` tab and copy the ``Secret`` value somewhere, as we will need it in the next steps.
+
+  ![rhsso_client_credentials.png](img/rhsso_client_credentials.png)
+
+- Add two ``Mappers``:
+  - A Built-in Mapper called **"email verified"** by clicking on ``Add selected``:
+
+  ![rhsso_client_mapper_emailverified.png](img/rhsso_client_mapper_emailverified.png)
+   
+
+  - A Custom Mapper called **"org_name"** by clicking on ``Create``:
+    - Name: ``org_name``
+    - Mapper Type: User Attribute
+    - User Attribute: ``email`` (you’re reusing the email field to simulate an org name — okay for now)
+    - Token Claim Name: ``org_name``
+    - Claim JSON Type: ``String``
+    - Add to ID token: ✅ ON
+    - Add to access token: ✅ ON
+    - Add to userinfo: ✅ ON
+  - In this configuration, the organization name for a user will be the same as the user email. This is to achieve full separation of the accounts. Adjust to your likings.
+
+  ![rhsso_client_mapper_orgname.png](img/rhsso_client_mapper_orgname.png)
+
+#### Create an Identity Provider
+An identity provider (IdP) is an external service that authenticates users and provides their identity information to Keycloak. When a user logs in through an IdP (e.g., GitHub, Google, LDAP), Keycloak trusts the IdP to verify the user's credentials. The client (like your 3scale app) doesn't interact directly with the IdP — instead, it relies on Keycloak to handle the authentication flow and pass along user details. This setup allows you to centralize authentication while supporting multiple external identity sources.
+
+- Create an IdentityProvider to connect your Realm to Red Hat authentication system.
+
+- In the left sidebar, click ``Identity Providers`` and in the dropdown select the **"Keycloak OpenID Connect"**:
+
+![rhsso_identity_provider.png](img/rhsso_identity_provider.png)
+
+- Configure the Identity Provider with this information:
+  - Alias: ``keycloak-oicd`` (left it as default or set any name you prefer)
+  - Display Name: ``Red Hat SSO`` (this is what users will see on the login page)
+  - ✅ Trust Email: ON
+  - First Login Flow: ``Leave as default (first brocker login)``
+  - Sync Mode: ``Leave as default (import)``
+  - Authorization URL: *https://.../auth/realms/REALM_NAME/protocol/openid-connect/auth*
+  - Token URL: *https://.../auth/realms/REALM_NAME/protocol/openid-connect/token*
+  - User Info URL (Optional): *https://.../auth/realms/REALM_NAME/protocol/openid-connect/userinfo*
+  - Client Authentication: ``Client secret sent as post``
+  - Client ID: ``3scale``
+  - Client Secret: Secret we get from the credentials tab of the *3scale* client
+
+![rhsso_identity_provider_config.png](img/rhsso_identity_provider_config.png)
+
+
+#### Create Test Users
+- In the left-hand menu, click **Users** and then **Add user**:
+  - Username: ``testuser`` (required)
+  - Email: ``testuser@example.com`` (optional, but recommended)
+  - First Name / Last Name: (optional)
+  - Email Verified: ✅ (check if you trust the email)
+
+  ![rhsso_addusers.png](img/rhsso_addusers.png)
+
+- After saving the user go to the **Credentials** tab to set the password:
+  - Enter a password.
+  - Confirm it.
+  - Set Temporary to:
+      - ✅ ON if you want the user to reset it on first login
+      - ❌ OFF if you want it to be permanent
+
+  ![rhsso_addusers_password.png](img/rhsso_addusers_password.png)
+
+
+## Configure the 3scale with Red Hat SSO 
+- In ``Developer Portal->Settings->Domains and Access``, remove the Developer Portal Access Code
+  ![audience_sso_domainaccess.png](img/audience_sso_domainaccess.png)
+
+- In ``Developer Portal->Settings->SSO`` Integrations, create a new SSO Integration: of type Red Hat Single Sign On.
+  - Client: ``3scale``
+  - Client secret: ************
+  - Realm: *https://.../auth/realms/REALM_NAME*
+  - Make sure ``Published`` is ticked: ✅
+
+  ![audience_sso_integration.png](img/audience_sso_integration.png)
+
+  - Once created, edit the RH-SSO to tick the checkbox ``Always approve accounts...`` ✅
+
+  ![audience_sso_integration_rhsso_config.png](img/audience_sso_integration_rhsso_config.png)
+
+- Now we can test the authentication flow by clicking on Test authentication flow and give the test user credentials:
+
+![audience_sso_integration_testing.png](img/audience_sso_integration_testing.png)
+
+![audience_sso_integration_testing1.png](img/audience_sso_integration_testing1.png)
