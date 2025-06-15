@@ -113,10 +113,10 @@ oc create secret generic llm-metrics \
     - **Attention 1:** The namespace should be the same as the one where the 3scale operator is installed.
     - **Attention 2:** The ***wildcardDomain*** attribute contains(*defines*) the main domain for the cluster, where *3scale* is deployed. 
     For example, if you deploy your *3scale* instance in a cluster with *URL: https://console-openshift-console.apps.cluster-abc.abc.sandbox123.opentlc.com*, then the variable should be set as: *wildcardDomain: apps.cluster-abc.abc.sandbox123.opentlc.com*
-    - **Attention 3:** After creating your *APIManager* instance (e.g., apimanager-sample), the status may show **Preflights**. 
+    - **Attention 3:** After creating your *APIManager* instance (e.g., apimanager-sample), the status may show ***Preflights***. 
 This means scale is performing initial checks before full deployment. It's normal and may take a few minutes.
 
-      **What to do:** Just wait. The status will change to **Available, Running**, or disappear once the checks are complete. Refresh the page occasionally to monitor progress.
+      **What to do:** Just wait. The status will change to ***Available, Running***, or disappear once the checks are complete. Refresh the page occasionally to monitor progress.
  
 
 - It takes some minutes for all (15) Deployments to complete successfully. 
