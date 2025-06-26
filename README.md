@@ -1,5 +1,5 @@
 # model-as-a-service
-This repository provides a step by step guide to building a 'Model as a Service' based on Red Hat products, *Openshift AI*, *3scale* and *Single Sign-On*. It is an extension of the work presented in [model-aas](https://github.com/rh-aiservices-bu/models-aas) with more detailed instructions.
+This repository provides a step by step guide to building a 'Model as a Service' based on Red Hat products, *Openshift AI*, *3scale* and *Single Sign-On (SSO)*. It is an extension of the work presented in [model-aas](https://github.com/rh-aiservices-bu/models-aas) with more detailed instructions.
 
 **Purpose of the Project**  
 This project is a walk-through for users to access deployed models on for example *Openshift AI* via a web portal, where they can sign up, get API keys, and interact with the provided models as backend products. It works very similar to how commercial APIs like OpenAI or Google Cloud operate.
@@ -44,9 +44,11 @@ Here’s how each part contributes:
 The client-side application (e.g., a web or mobile app) sends a request with input data to your API, which first passes through the 3scale API Gateway.
 
 **3scale API Gateway**
+
 The 3scale API Gateway acts as a traffic controller, verifying API keys, enforcing access permissions, reporting usage, and forwarding authorized requests to the ML model on OpenShift AI. The 3scale API Manager serves as the control center, managing access policies, syncing with the Developer Portal, configuring backends, and coordinating with the API Gateway for real-time request validation.
 
 **3scale Developer and Admin Portal**
+
 The 3scale Developer Portal is a self-service interface where external users can register, access API documentation, and retrieve their personal API keys. Meanwhile, the 3scale Admin Portal is the API owner's control panel, enabling them to define access plans, manage users and billing, and monitor API usage and analytics.
 
 **OpenShift AI - Model Hosting**  
