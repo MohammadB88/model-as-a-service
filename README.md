@@ -43,12 +43,10 @@ Here’s how each part contributes:
 
 The client-side application (e.g., a web or mobile app) sends a request with input data to your API, which first passes through the 3scale API Gateway.
 
-**3scale API Gateway**
-
+**3scale API Gateway**  
 The 3scale API Gateway acts as a traffic controller, verifying API keys, enforcing access permissions, reporting usage, and forwarding authorized requests to the ML model on OpenShift AI. The 3scale API Manager serves as the control center, managing access policies, syncing with the Developer Portal, configuring backends, and coordinating with the API Gateway for real-time request validation.
 
-**3scale Developer and Admin Portal**
-
+**3scale Developer and Admin Portal**  
 The 3scale Developer Portal is a self-service interface where external users can register, access API documentation, and retrieve their personal API keys. Meanwhile, the 3scale Admin Portal is the API owner's control panel, enabling them to define access plans, manage users and billing, and monitor API usage and analytics.
 
 **OpenShift AI - Model Hosting**  
